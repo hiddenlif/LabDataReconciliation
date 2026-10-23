@@ -1,0 +1,19 @@
+source_row,record_id,sample_id,disposition,reason
+0,r01,S01,superseded,earlier version retained in audit
+1,r02,S01,selected,latest unique approved valid revision
+2,r03,S02,selected,latest unique approved valid revision
+3,r03,S02,duplicate,exact duplicate payload
+4,r04,S03,quarantined,invalid latest measurement or timestamp
+5,r05,S03,quarantined,invalid latest measurement or timestamp
+6,r06,S04,quarantined,latest revision not approved
+7,r07,S04,quarantined,latest revision not approved
+8,r08,S05,quarantined,invalid latest measurement or timestamp
+9,r09,S06,selected,latest unique approved valid revision
+10,r10,S07,quarantined,conflicting sample metadata
+11,r11,S08,quarantined,ambiguous latest revision
+12,r12,S08,quarantined,ambiguous latest revision
+13,r13,S09,quarantined,conflicting record identity
+14,r13,S09,quarantined,conflicting record identity
+15,r14,S10,selected,latest unique approved valid revision
+16,r15,S11,quarantined,orphan sample
+17,r16,,quarantined,missing sample or record identity

@@ -1,0 +1,32 @@
+{
+  "source": "Fully synthetic laboratory export; not clinical or manufacturing records",
+  "input_rows": 18,
+  "metadata_unique_sample_ids": 10,
+  "canonical_samples": 4,
+  "dispositions": {
+    "quarantined": 12,
+    "selected": 4,
+    "superseded": 1,
+    "duplicate": 1
+  },
+  "canonical_mean_viability": 0.9125,
+  "naive_approved_row_mean": 0.9226666666666665,
+  "mean_comparison_limit": "Different record populations; this contrast demonstrates weighting/eligibility differences, not a treatment effect.",
+  "illustrative_threshold": 0.9,
+  "canonical_samples_at_or_above_threshold": 3,
+  "quarantine_reasons": {
+    "invalid latest measurement or timestamp": 3,
+    "latest revision not approved": 2,
+    "ambiguous latest revision": 2,
+    "conflicting record identity": 2,
+    "conflicting sample metadata": 1,
+    "orphan sample": 1,
+    "missing sample or record identity": 1
+  },
+  "source_sha256": {
+    "expected_canonical.csv": "d4b246cfbed4f269435f37678800f1ec5c54bd360806f06c90c156e98355c1b1",
+    "lab_export.csv": "f5e5680ad8ab1f0e711f6628755808609fb56af1b885a7c869040e913acd5e0d",
+    "sample_metadata.csv": "afa46e031ad0b7425e9102e6004c1675c00286e66f0057cc824f1779ac349ccc"
+  },
+  "policy": "Latest revision resolved before validity/status filtering. Invalid or unapproved latest records quarantine the sample; never silently fall back. Timestamp is evidence, not a tie-breaker."
+}

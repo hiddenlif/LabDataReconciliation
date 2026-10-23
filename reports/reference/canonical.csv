@@ -1,0 +1,5 @@
+sample_id,record_id,revision,viability_fraction,source_row,measured_at,donor_id,condition
+S01,r02,2,0.91,1,2026-01-01 00:00:00+00:00,D01,control
+S02,r03,1,0.88,2,2026-01-01 00:00:00+00:00,D01,treated
+S06,r09,1,0.92,9,2026-01-01 00:00:00+00:00,D03,treated
+S10,r14,1,0.94,15,2026-01-01 00:00:00+00:00,D05,treated
