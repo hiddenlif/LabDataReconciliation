@@ -22,7 +22,7 @@ Reconcile conflicting laboratory exports without silently reviving obsolete meas
 
 ## What the tests protect
 
-Golden-output comparison, exact duplicate accounting, shuffle invariance, tied/conflicting identities, invalid and unapproved latest revisions, normalized numeric revision strings, boolean revision rejection, unit bounds, missing schemas and invalid timestamps.
+Golden-output comparison, exact duplicate accounting, shuffle invariance, tied/conflicting identities, invalid and unapproved latest revisions, normalized numeric revision strings, boolean revision rejection, unit bounds, missing schemas and invalid timestamps. A differential suite compares the disposition and reason of every source row with an independent plain-Python formulation of the policy on 200 seeded messy exports (checked against deliberately broken versions of the reconciler), and checks row-order invariance, that reconciling the canonical output changes nothing, UTC storage of offset timestamps, record identifiers shared across samples, conflicting or duplicated metadata, and the command-line round trip.
 
 ## Libraries actually used
 
@@ -31,6 +31,14 @@ pandas for typed joins, grouping and audit tables; NumPy for numerical checks; M
 ## Interpretation limits
 
 This is an explicit example policy, not a universal laboratory SOP or a validated regulated system. Real workflows require an authorized record hierarchy, audit-trail retention and controlled exception resolution. Quarantine preserves uncertainty; it does not establish that a sample failed. The illustrative 0.90 threshold is not a clinical or product-release specification. The mean comparison is not a treatment effect.
+
+## Use it on your own export
+
+```bash
+python analysis.py reconcile EXPORT.csv METADATA.csv OUTPUT_DIR
+```
+
+The export needs the columns `record_id, sample_id, revision, status, value, unit, measured_at`; the metadata needs `sample_id, donor_id, condition`. The command writes `canonical.csv` (one row per sample), `row_audit.csv` (one disposition and reason per source row) and `dispositions.json` (counts). The policy is the explicit example policy described above, not a universal laboratory SOP.
 
 ## Run it
 
@@ -57,7 +65,7 @@ The container runs as an unprivileged user. GitHub Actions uses the same Python 
 
 - [Source notebook](notebooks/analysis.ipynb) and [executed notebook](notebooks/analysis.executed.ipynb)
 - [Implementation](analysis.py)
-- [Tests](tests/test_analysis.py)
+- Tests: [hand-authored cases](tests/test_analysis.py) and [differential suite](tests/test_differential.py)
 - [Actual findings and limitations](reports/reference/FINDINGS.md)
 - [Machine-readable reference results](reports/reference/summary.json)
 - [Analysis plan](docs/ANALYSIS_PLAN.json), a local design record rather than an externally registered protocol

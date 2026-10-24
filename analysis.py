@@ -1,7 +1,7 @@
 """Synthetic laboratory-export reconciliation with an auditable row disposition."""
 
 from pathlib import Path
-import hashlib, json
+import argparse, hashlib, json, sys
 import numpy as np
 import pandas as pd
 import matplotlib
@@ -237,5 +237,34 @@ def run(output=ROOT / "artifacts/run"):
     return result
 
 
+def reconcile_files(export, metadata, output):
+    """Reconcile two CSV files; write canonical.csv, row_audit.csv and dispositions.json to output and return the counts."""
+    records = pd.read_csv(export, keep_default_na=False)
+    meta = pd.read_csv(metadata, keep_default_na=False)
+    clean, audit = reconcile(records, meta)
+    output = Path(output)
+    output.mkdir(parents=True, exist_ok=True)
+    clean.to_csv(output / "canonical.csv", index=False)
+    audit.to_csv(output / "row_audit.csv", index=False)
+    counts = {k: int(v) for k, v in audit.disposition.value_counts().items()}
+    (output / "dispositions.json").write_text(json.dumps(counts, indent=2, sort_keys=True) + "\n")
+    return counts
+
+
+def main(argv):
+    parser = argparse.ArgumentParser(description="Synthetic laboratory-export reconciliation")
+    sub = parser.add_subparsers(dest="command")
+    sub.add_parser("run", help="regenerate the reference results (default)")
+    rec = sub.add_parser("reconcile", help="reconcile your own export against sample metadata")
+    rec.add_argument("export")
+    rec.add_argument("metadata")
+    rec.add_argument("output")
+    args = parser.parse_args(argv)
+    if args.command == "reconcile":
+        print(json.dumps(reconcile_files(args.export, args.metadata, args.output), indent=2, sort_keys=True))
+    else:
+        print(json.dumps(run(), indent=2))
+
+
 if __name__ == "__main__":
-    print(json.dumps(run(), indent=2))
+    main(sys.argv[1:])
