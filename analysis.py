@@ -1,10 +1,14 @@
 """Synthetic laboratory-export reconciliation with an auditable row disposition."""
 
+import argparse
+import hashlib
+import json
+import sys
 from pathlib import Path
-import argparse, hashlib, json, sys
+
+import matplotlib
 import numpy as np
 import pandas as pd
-import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -247,21 +251,33 @@ def reconcile_files(export, metadata, output):
     clean.to_csv(output / "canonical.csv", index=False)
     audit.to_csv(output / "row_audit.csv", index=False)
     counts = {k: int(v) for k, v in audit.disposition.value_counts().items()}
-    (output / "dispositions.json").write_text(json.dumps(counts, indent=2, sort_keys=True) + "\n")
+    (output / "dispositions.json").write_text(
+        json.dumps(counts, indent=2, sort_keys=True) + "\n"
+    )
     return counts
 
 
 def main(argv):
-    parser = argparse.ArgumentParser(description="Synthetic laboratory-export reconciliation")
+    parser = argparse.ArgumentParser(
+        description="Synthetic laboratory-export reconciliation"
+    )
     sub = parser.add_subparsers(dest="command")
     sub.add_parser("run", help="regenerate the reference results (default)")
-    rec = sub.add_parser("reconcile", help="reconcile your own export against sample metadata")
+    rec = sub.add_parser(
+        "reconcile", help="reconcile your own export against sample metadata"
+    )
     rec.add_argument("export")
     rec.add_argument("metadata")
     rec.add_argument("output")
     args = parser.parse_args(argv)
     if args.command == "reconcile":
-        print(json.dumps(reconcile_files(args.export, args.metadata, args.output), indent=2, sort_keys=True))
+        print(
+            json.dumps(
+                reconcile_files(args.export, args.metadata, args.output),
+                indent=2,
+                sort_keys=True,
+            )
+        )
     else:
         print(json.dumps(run(), indent=2))
 

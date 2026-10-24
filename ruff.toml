@@ -1,0 +1,5 @@
+# Linted and formatted with ruff using its default rules. The per-file exceptions below are deliberate.
+
+[lint.per-file-ignores]
+# Input validation raises ValueError for every invalid argument, a contract the tests check.
+"analysis.py" = ["TRY004"]

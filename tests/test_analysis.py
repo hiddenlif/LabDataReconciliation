@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd
 import pytest
-from analysis import ROOT, reconcile, normalize
+
+from analysis import ROOT, normalize, reconcile
 
 
 def inputs():
@@ -60,7 +61,7 @@ def test_no_fallback_from_invalid_latest():
 
 def test_no_fallback_from_pending_latest():
     r, m = inputs()
-    c, a = reconcile(r, m)
+    c, _a = reconcile(r, m)
     assert "S04" not in set(c.sample_id)
 
 
@@ -100,11 +101,11 @@ def test_malformed_source(issue):
     r, m = inputs()
     if issue == "revision":
         r.loc[r.sample_id == "S01", "revision"] = "bad"
-        c, a = reconcile(r, m)
+        c, _a = reconcile(r, m)
         assert "S01" not in set(c.sample_id)
     elif issue == "timestamp":
         r.loc[r.record_id == "r02", "measured_at"] = "2026-01-01"
-        c, a = reconcile(r, m)
+        c, _a = reconcile(r, m)
         assert "S01" not in set(c.sample_id)
     else:
         if issue == "missing_column":
