@@ -55,8 +55,8 @@ The validation command runs pytest, regenerates results and executes every noteb
 
 ```bash
 # Equivalent isolated run, without local Python setup
-docker build -t scientific-data-reconciliation:local .
-docker run --rm --cpus=1 --memory=3g scientific-data-reconciliation:local
+docker build -t lab-data-reconciliation:local .
+docker run --rm --cpus=1 --memory=3g lab-data-reconciliation:local
 ```
 
 The container runs as an unprivileged user. GitHub Actions uses the same Python validation entrypoint. Public-data downloads require network access; the other projects are offline after dependency installation.
