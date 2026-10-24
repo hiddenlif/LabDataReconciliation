@@ -1,4 +1,4 @@
-# Lab data reconciliation
+# Scientific Analysis: Laboratory Data Reconciliation
 
 Reconcile conflicting laboratory exports without silently reviving obsolete measurements.
 
@@ -59,7 +59,7 @@ docker build -t lab-data-reconciliation:local .
 docker run --rm --cpus=1 --memory=3g lab-data-reconciliation:local
 ```
 
-The container runs as an unprivileged user. GitHub Actions uses the same Python validation entrypoint. Public-data downloads require network access; the other projects are offline after dependency installation.
+The container runs as an unprivileged user. GitHub Actions uses the same Python validation entrypoint. Validation uses the supplied synthetic fixtures and runs offline after dependency installation.
 
 ## Navigate
 
